@@ -12,6 +12,7 @@ struct NO {
 
 int insere_ArvAVL(ArvAVL *raiz, int valor) {
     int res;
+    // verifica se a arvore e vazia
     if (*raiz == NULL) {
         struct NO *novo = (struct NO *)malloc(sizeof(struct NO));
         if (novo == NULL)
@@ -26,30 +27,44 @@ int insere_ArvAVL(ArvAVL *raiz, int valor) {
     }
 
     struct NO *atual = *raiz;
+    // verifica se o valor e menor que o valor da raiz
     if (valor < atual->info) {
+        // se verdadeiro vai para subarvore da esquerda
+
+        // chama recursivamente a funcao de insercao
         if ((res = insere_ArvAVL(&(atual->esq), valor)) == 1) {
+            // testa o balanceamento
             if (fator_balanceamento_NO(atual) >= 2) {
                 if (valor < (*raiz)->esq->info)
+                    // se desbalanceado "reto" a esquerda
                     RotacaoLL(raiz);
                 else
+                    // se desbalanceado em "ziguezague" a esquerda e depois direita
                     RotacaoLR(raiz);
             }
         }
     } else {
+        // se falso vai para subarvore da direita
         if (valor > atual->info) {
+            // chama recursivamente a função de insercao
             if ((res = insere_ArvAVL(&(atual->dir), valor)) == 1) {
+                // testa o balanceamento
                 if (fator_balanceamento_NO(atual) >= 2) {
                     if ((*raiz)->dir->info < valor)
+                        // se desbalanceado "reto" a direita
                         RotacaoRR(raiz);
                     else
+                        // se desbalanceado em "ziguezague" a direita e depois esquerda
                         RotacaoRL(raiz);
                 }
             }
         } else {
+            // se ja existir sai da funcao
             printf("valor duplicado %d\n", valor);
             return 0;
         }
     }
+    // recalcula a altura para o no atual
     atual->alt = maior(alt_NO(atual->esq), alt_NO(atual->dir)) + 1;
     return res;
 }
