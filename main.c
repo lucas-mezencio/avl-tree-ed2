@@ -12,9 +12,11 @@ int main(void) {
     insere_ArvAVL(arv, 7);
     insere_ArvAVL(arv, 3);
     insere_ArvAVL(arv, 6);
+    insere_ArvAVL(arv, 6);
     insere_ArvAVL(arv, 8);
     insere_ArvAVL(arv, 4);
     insere_ArvAVL(arv, 9);
+    insere_ArvAVL(arv, 10);
     insere_ArvAVL(arv, 10);
 
     // pre ordem

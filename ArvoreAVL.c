@@ -127,21 +127,33 @@ void RotacaoRL(ArvAVL *A) {
 }
 
 void pre_ordem(ArvAVL *A) {
-    printf("%d ", (*A)->info);
-    pre_ordem(&(*A)->esq);
-    pre_ordem(&(*A)->dir);
+    if (A == NULL)
+        return;
+    if (*A != NULL) {
+        printf("%d ", (*A)->info);
+        pre_ordem(&((*A)->esq));
+        pre_ordem(&((*A)->dir));
+    }
 }
 
 void in_ordem(ArvAVL *A) {
-    in_ordem(&(*A)->esq);
-    printf("%d ", (*A)->info);
-    in_ordem(&(*A)->dir);
+    if (A == NULL)
+        return;
+    if (*A != NULL) {
+        in_ordem(&(*A)->esq);
+        printf("%d ", (*A)->info);
+        in_ordem(&(*A)->dir);
+    }
 }
 
 void pos_ordem(ArvAVL *A) {
-    pos_ordem(&(*A)->esq);
-    pos_ordem(&(*A)->dir);
-    printf("%d ", (*A)->info);
+    if (A == NULL)
+        return;
+    if (*A != NULL) {
+        pos_ordem(&(*A)->esq);
+        pos_ordem(&(*A)->dir);
+        printf("%d ", (*A)->info);
+    }
 }
 
 int alt_NO(struct NO *no) {
