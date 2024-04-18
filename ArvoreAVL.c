@@ -10,6 +10,49 @@ struct NO {
     struct NO *dir;
 };
 
+int insere_ArvAVL(ArvAVL *raiz, int valor) {
+    int res;
+    if (*raiz == NULL) {
+        struct NO *novo = (struct NO *)malloc(sizeof(struct NO));
+        if (novo == NULL)
+            return 0;
+
+        novo->info = valor;
+        novo->alt = 0;
+        novo->esq = NULL;
+        novo->dir = NULL;
+        *raiz = novo;
+        return 1;
+    }
+
+    struct NO *atual = *raiz;
+    if (valor < atual->info) {
+        if ((res = insere_ArvAVL(&(atual->esq), valor)) == 1) {
+            if (fator_balanceamento_NO(atual) >= 2) {
+                if (valor < (*raiz)->esq->info)
+                    RotacaoLL(raiz);
+                else
+                    RotacaoLR(raiz);
+            }
+        }
+    } else {
+        if (valor > atual->info) {
+            if ((res = insere_ArvAVL(&(atual->dir), valor)) == 1) {
+                if (fator_balanceamento_NO(atual) >= 2) {
+                    if ((*raiz)->dir->info < valor)
+                        RotacaoRR(raiz);
+                    else
+                        RotacaoRL(raiz);
+                }
+            }
+        } else {
+            printf("valor duplicado %d\n", valor);
+            return 0;
+        }
+    }
+    atual->alt = maior(alt_NO(atual->esq), alt_NO(atual->dir)) + 1;
+    return res;
+}
 void RotacaoLL(ArvAVL *A) {
     struct NO *B;
     B = (*A)->esq;
