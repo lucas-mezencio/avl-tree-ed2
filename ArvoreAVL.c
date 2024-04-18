@@ -6,6 +6,7 @@
 int alt_NO(struct NO *no);
 int fator_balanceamento_NO(struct NO *no);
 int maior(int x, int y);
+void libera_NO(struct NO *no);
 
 struct NO {
     int info;
@@ -13,6 +14,29 @@ struct NO {
     struct NO *esq;
     struct NO *dir;
 };
+
+ArvAVL *cria_ArvAVL() {
+    ArvAVL *raiz = (ArvAVL *)malloc(sizeof(ArvAVL));
+    if (raiz != NULL)
+        *raiz = NULL;
+    return raiz;
+}
+
+void libera_ArvAVL(ArvAVL *raiz) {
+    if (raiz == NULL)
+        return;
+    libera_NO(*raiz);
+    free(raiz);
+}
+
+void libera_NO(struct NO *no) {
+    if (no == NULL)
+        return;
+    libera_NO(no->esq);
+    libera_NO(no->dir);
+    free(no);
+    no = NULL;
+}
 
 int insere_ArvAVL(ArvAVL *raiz, int valor) {
     int res;
