@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int alt_NO(struct NO *no);
+int fator_balanceamento_NO(struct NO *no);
+int maior(int x, int y);
+
 struct NO {
     int info;
     int alt;
@@ -74,7 +78,7 @@ void RotacaoLL(ArvAVL *A) {
     (*A)->esq = B->dir;
     B->dir = *A;
     (*A)->alt = maior(alt_NO((*A)->esq), alt_NO((*A)->dir) + 1);
-    B->alt = maior(alt_NO(B->esq), alt_NO((*A)->alt) + 1);
+    B->alt = maior(alt_NO(B->esq), (*A)->alt + 1);
     *A = B;
 }
 
@@ -84,7 +88,7 @@ void RotacaoRR(ArvAVL *A) {
     (*A)->dir = B->esq;
     B->esq = (*A);
     (*A)->alt = maior(alt_NO((*A)->esq), alt_NO((*A)->dir) + 1);
-    B->alt = maior(alt_NO(B->dir), alt_NO((*A)->alt) + 1);
+    B->alt = maior(alt_NO(B->dir), (*A)->alt + 1);
     (*A) = B;
 }
 
