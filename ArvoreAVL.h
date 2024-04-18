@@ -9,6 +9,10 @@ int altura_ArvAVL(ArvAVL* raiz);
 int totalNO_ArvAVL(ArvAVL* raiz);
 int consulta_ArvAVL(ArvAVL* raiz, int valor);
 
+void pre_ordem(ArvAVL* A);
+void in_ordem(ArvAVL* A);
+void pos_ordem(ArvAVL* A);
+
 void RotacaoLL(ArvAVL* A);
 void RotacaoRR(ArvAVL* A);
 void RotacaoLR(ArvAVL* A);
