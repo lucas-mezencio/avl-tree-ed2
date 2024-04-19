@@ -96,6 +96,75 @@ int insere_ArvAVL(ArvAVL *raiz, int valor) {
     atual->alt = maior(alt_NO(atual->esq), alt_NO(atual->dir)) + 1;
     return res;
 }
+
+struct NO* procuraMenor(struct NO* atual){
+    struct NO *no1 = atual;
+    struct NO *no2 = atual->esq;
+    while(no2 != NULL){
+        no1 = no2;
+        no2 = no2->esq;
+    }
+    return no1;
+}
+
+int remove_ArvAVL(ArvAVL *raiz, int valor){
+	if(*raiz == NULL){// valor n�o existe
+	    printf("valor n�o existe!!\n");
+	    return 0;
+	}
+
+    int res;
+	if(valor < (*raiz)->info){
+	    if((res = remove_ArvAVL(&(*raiz)->esq,valor)) == 1){
+            if(fatorBalanceamento_NO(*raiz) >= 2){
+                if(altura_NO((*raiz)->dir->esq) <= altura_NO((*raiz)->dir->dir))
+                    RotacaoRR(raiz);
+                else
+                    RotacaoRL(raiz);
+            }
+	    }
+	}
+
+	if((*raiz)->info < valor){
+	    if((res = remove_ArvAVL(&(*raiz)->dir, valor)) == 1){
+            if(fatorBalanceamento_NO(*raiz) >= 2){
+                if(altura_NO((*raiz)->esq->dir) <= altura_NO((*raiz)->esq->esq) )
+                    RotacaoLL(raiz);
+                else
+                    RotacaoLR(raiz);
+            }
+	    }
+	}
+
+	if((*raiz)->info == valor){
+	    if(((*raiz)->esq == NULL || (*raiz)->dir == NULL)){// n� tem 1 filho ou nenhum
+			struct NO *oldNode = (*raiz);
+			if((*raiz)->esq != NULL)
+                *raiz = (*raiz)->esq;
+            else
+                *raiz = (*raiz)->dir;
+			free(oldNode);
+		}else { // n� tem 2 filhos
+			struct NO* temp = procuraMenor((*raiz)->dir);
+			(*raiz)->info = temp->info;
+			remove_ArvAVL(&(*raiz)->dir, (*raiz)->info);
+            if(fatorBalanceamento_NO(*raiz) >= 2){
+				if(altura_NO((*raiz)->esq->dir) <= altura_NO((*raiz)->esq->esq))
+					RotacaoLL(raiz);
+				else
+					RotacaoLR(raiz);
+			}
+		}
+		if (*raiz != NULL)
+            (*raiz)->altura = maior(altura_NO((*raiz)->esq),altura_NO((*raiz)->dir)) + 1;
+		return 1;
+	}
+
+	(*raiz)->altura = maior(altura_NO((*raiz)->esq),altura_NO((*raiz)->dir)) + 1;
+
+	return res;
+}
+
 void RotacaoLL(ArvAVL *A) {
     struct NO *B;
     B = (*A)->esq;
